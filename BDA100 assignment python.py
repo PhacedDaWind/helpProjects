@@ -82,12 +82,18 @@ def deleteTask(taskDictionary):
     taskDictionary.pop(taskId)
 
 def listTasks(taskDictionary):
-    print("+---------+---------------------------------------+----------+---------------+--------+")
-    print("| Task ID | Description                           | Priority | Due Date      | Status |")
-    print("+---------+---------------------------------------+----------+---------------+--------+")
-    for i in taskDictionary:
-        print("| " + taskDictionary.)
-    
+    print("+-----------+-------------------------------------------------------+----------+----------------+-------------+")
+    print("| Task ID   | Description                                           | Priority | Due Date       | Status      |")
+    print("+-----------+-------------------------------------------------------+----------+----------------+-------------+")
+    for k, v in taskDictionary.items():
+        # Format each field with consistent spacing
+        task_id = f"| {k.ljust(10)}"
+        description = f"| {v.getDescription().ljust(54)}"
+        priority = f"| {v.getPriority().ljust(9)}"
+        due_date = f"| {v.getDueDate().ljust(15)}"
+        status = f"| {v.getStatus().ljust(12)}|"
+        print(task_id + description + priority + due_date + status)
+    print("+-----------+-------------------------------------------------------+----------+----------------+-------------+")
 
 def main():
     taskDictionary = {}
@@ -102,6 +108,8 @@ def main():
             editTask(taskDictionary)
         elif userInput == 4:
             deleteTask(taskDictionary)
+        elif userInput == 6:
+            listTasks(taskDictionary)
         elif userInput == 9:
             break
 
