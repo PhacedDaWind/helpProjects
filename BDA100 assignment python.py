@@ -39,9 +39,9 @@ def addTask(taskDictionary):
         else:
             uniqueId = True
     description = input("Enter description: ")  # TODO add validation
-    priority = input("Enter priority: ")
+    priority = input("Enter priority (High, Medium, Low): ")
     dueDate = input("Enter due date (YYYY-MM-DD): ")
-    status = input("Enter status: ")
+    status = input("Enter status (Pending/Completed): ")
     taskCreated = Task(description, priority, dueDate, status)
     taskDictionary[taskId] = taskCreated    # Add new task into dictionary
     print(taskDictionary)
@@ -65,9 +65,9 @@ def editTask(taskDictionary):
         else:
             print("Task is not found")
     description = input("Enter description: ")  # TODO add validation
-    priority = input("Enter priority: ")
+    priority = input("Enter priority (High, Medium, Low): ")
     dueDate = input("Enter due date (YYYY-MM-DD): ")
-    status = input("Enter status: ")
+    status = input("Enter status (Pending/Completed): ")
     taskUpdated = Task(description, priority, dueDate, status)
     taskDictionary.update({taskId : taskUpdated})    # Update task into dictionary
 
@@ -149,6 +149,32 @@ def filterTask(taskDictionary):
     else:
         print("\nNo tasks matches your filter criteria.")
 
+def saveToFile(taskDictionary):
+    try:
+        with open("tasks.txt", "w") as file:
+            for taskId, task in taskDictionary.items():
+                line = f"{taskId}|{task.getDescription()}|{task.getPriority()}|{task.getDueDate()}|{task.getStatus()}\n"
+                file.write(line)
+        print("Tasks successfully saved to tasks.txt.")
+    except Exception as e:
+        print("Error while saving tasks:", str(e))
+
+def loadFromFile(taskDictionary):
+    try:
+        with open("tasks.txt", "r") as file:
+            for line in file:
+                data = line.strip().split("|")
+                if len(data) == 5:
+                    taskId, description, priority, dueDate, status = data
+                    taskDictionary[taskId] = Task(description, priority, dueDate, status)
+        print("Tasks successfully loaded from tasks.txt.")
+        listTasks(taskDictionary)
+    except FileNotFoundError:
+        print("tasks.txt not found. Please save tasks before loading.")
+    except Exception as e:
+        print("Error while loading tasks:", str(e))
+
+
 def main():
     taskDictionary = {}
     while True:
@@ -169,6 +195,10 @@ def main():
             filterTask(taskDictionary)
         elif userInput == 6:
             listTasks(taskDictionary)
+        elif userInput == 7:
+            saveToFile(taskDictionary)
+        elif userInput == 8:
+            loadFromFile(taskDictionary)
         elif userInput == 9:
             break
 
