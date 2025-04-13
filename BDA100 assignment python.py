@@ -150,27 +150,29 @@ def filterTask(taskDictionary):
         print("\nNo tasks matches your filter criteria.")
 
 def saveToFile(taskDictionary):
+    filename = input("Enter filename: ")
     try:
-        with open("tasks.txt", "w") as file:
+        with open(filename, "w") as file:
             for taskId, task in taskDictionary.items():
                 line = f"{taskId}|{task.getDescription()}|{task.getPriority()}|{task.getDueDate()}|{task.getStatus()}\n"
                 file.write(line)
-        print("Tasks successfully saved to tasks.txt.")
+        print("Tasks successfully saved to {filename}.")
     except Exception as e:
         print("Error while saving tasks:", str(e))
 
 def loadFromFile(taskDictionary):
+    filename = input("Enter filename to load: ")
     try:
-        with open("tasks.txt", "r") as file:
+        with open(filename, "r") as file:
             for line in file:
                 data = line.strip().split("|")
                 if len(data) == 5:
                     taskId, description, priority, dueDate, status = data
                     taskDictionary[taskId] = Task(description, priority, dueDate, status)
-        print("Tasks successfully loaded from tasks.txt.")
+        print("Tasks successfully loaded from {filename}.")
         listTasks(taskDictionary)
     except FileNotFoundError:
-        print("tasks.txt not found. Please save tasks before loading.")
+        print(f"{filename} not found. Please check the filename and try again.")
     except Exception as e:
         print("Error while loading tasks:", str(e))
 
