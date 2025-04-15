@@ -47,6 +47,9 @@ def addTask(taskDictionary):
         if taskId in taskDictionary:
             print("Task ID already exists.")
             uniqueId = False
+        elif len(taskId) > 10:
+            print("Task ID length too long!")
+            uniqueId = False
         else:
             uniqueId = True
 
@@ -329,7 +332,7 @@ def main():
             userInput = None  # Equivalent to setting variable to null
         if userInput == 1:
             addTask(taskDictionary)
-        elif userInput == 2:    # TODO add in checking for when list is empty
+        elif userInput == 2:
             listTasks(taskDictionary)
             markTaskAsCompleted(taskDictionary)
         elif userInput == 3:
